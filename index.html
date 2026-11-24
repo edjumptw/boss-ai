@@ -120,14 +120,44 @@ button,input,select,textarea{font:inherit;color:inherit}
 .memo{background:var(--page);color:var(--ink);padding:26px 22px;border-radius:var(--r);box-shadow:0 24px 50px rgba(0,0,0,.3)}
 .memo-who{display:inline-block;background:var(--tint);color:var(--walnut);font-size:14px;font-weight:700;padding:4px 12px;border-radius:999px;line-height:1.5}
 .memo-q{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,2.5vw,1.4rem);line-height:1.6;margin-top:12px}
-.memo h3{font-size:15px;color:var(--amber-deep);margin-top:22px;line-height:1.4}
-.memo-read{margin-top:4px}
-.steps{counter-reset:s;margin-top:6px}
-.steps li{counter-increment:s;position:relative;padding-left:36px;margin-top:8px;line-height:1.65}
-.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:26px;height:26px;background:var(--board);color:var(--amber);font-size:13px;font-weight:900;display:grid;place-items:center;border-radius:50%}
-.send{margin-top:8px;background:var(--tint);border-left:4px solid var(--amber);padding:14px 16px;line-height:1.7;border-radius:0 12px 12px 0}
-.copy{margin-top:12px;background:var(--board);color:#fff;border:0;border-radius:999px;min-height:44px;padding:6px 20px;font-weight:700;cursor:pointer;font-size:15px}
+.memo h3{font-size:15px;color:var(--amber-deep);margin-top:24px;line-height:1.4}
+.files{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.files li{display:flex;align-items:center;gap:8px;background:var(--tint);border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.45}
+.files b{font-size:11.5px;font-weight:900;color:#fff;background:var(--walnut);border-radius:5px;padding:1px 6px;letter-spacing:.02em}
+.log{margin-top:8px;background:var(--board);color:#dfe8e4;border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.6}
+.log li{display:grid;grid-template-columns:22px 1fr;gap:8px;padding:5px 0}
+.log li+li{border-top:1px solid var(--board-line)}
+.log li::before{content:"";width:16px;height:16px;margin-top:4px;border-radius:50%;border:2px solid var(--board-line)}
+.log li.done::before{border-color:var(--amber);background:var(--amber) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%231c2925' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat}
+.log li.run::before{border-color:var(--amber);border-right-color:transparent;animation:spin .8s linear infinite}
+.log li.wait{opacity:.35}
+.log em{font-style:normal;color:var(--amber)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.result{margin-top:8px;border:1.5px solid var(--amber);border-radius:14px;overflow:hidden;transition:opacity .35s}
+.result.hold{opacity:.15}
+.result-head{background:#fff8ea;padding:14px 16px;font-weight:700;line-height:1.65}
+.result-head strong{color:var(--copper)}
+.rt{width:100%;border-collapse:collapse;font-size:14.5px}
+.rt th,.rt td{padding:9px 12px;text-align:left;border-top:1px solid var(--line);line-height:1.5;vertical-align:top}
+.rt th{font-size:13px;color:var(--ink-soft);font-weight:700;background:#fdfbf7}
+.rt td.n{white-space:nowrap;font-variant-numeric:tabular-nums}
+.rt tr.hi td{background:#fff3dc}
+.decide{margin-top:8px;font-weight:700;line-height:1.65}
+.daily{margin-top:8px;display:flex;gap:10px;align-items:flex-start;background:var(--tint);border-radius:12px;padding:12px 14px;line-height:1.65}
+.daily b{flex:none;background:var(--board);color:var(--amber);font-size:12.5px;border-radius:999px;padding:2px 10px;margin-top:2px}
 .memo-note{margin-top:16px;font-size:13.5px;color:var(--ink-soft);line-height:1.6}
+@media (max-width:560px){
+  .rt thead{display:none}
+  .rt tr{display:block;border-top:1px solid var(--line);padding:10px 14px}
+  .rt td{display:grid;grid-template-columns:5.5em 1fr;gap:8px;border:0;padding:2px 0}
+  .rt td::before{content:attr(data-label);color:var(--ink-soft);font-size:13px;font-weight:700}
+  .rt td:first-child{display:block;font-weight:700;padding-bottom:4px}
+  .rt td:first-child::before{content:none}
+  .rt td.n{white-space:normal}
+  .rt tr.hi td{background:none}
+  .rt tr.hi{background:#fff3dc}
+}
+@media (prefers-reduced-motion:reduce){.log li.run::before{animation:none}.result{transition:none}}
 
 /* 當天流程 */
 .day{margin-top:32px;position:relative;max-width:760px}
@@ -331,26 +361,31 @@ button,input,select,textarea{font:inherit;color:inherit}
 <section class="desk" id="try" aria-labelledby="try-title">
   <div class="wrap">
     <h2 id="try-title">你最近卡在哪一件事？</h2>
-    <p class="desk-sub">點一件事，看負責的 AI 長官會怎麼回你。</p>
+    <p class="desk-sub">點一件事，看 AI 長官拿到你的資料以後，怎麼做事、交出什麼。</p>
     <div class="desk-grid">
       <div class="issues" role="tablist" aria-label="選一件公司難題">
-        <button class="issue" role="tab" id="tab-leave" aria-controls="memo" aria-selected="true" data-case="leave">員工剛訓練好就要離職<span>AI 營運長</span></button>
-        <button class="issue" role="tab" id="tab-price" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="price">客戶要你降價 10%<span>AI 策略長</span></button>
-        <button class="issue" role="tab" id="tab-busy" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="busy">忙到沒時間找新客戶<span>AI 營收長</span></button>
-        <button class="issue" role="tab" id="tab-post" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="post">貼文沒人看、沒人知道你<span>AI 行銷長</span></button>
-        <button class="issue" role="tab" id="tab-debt" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="debt">客戶貨款拖了兩個月<span>AI 財務長</span></button>
+        <button class="issue" role="tab" id="tab-sales" aria-controls="memo" aria-selected="true" data-case="sales">業績掉了，不知道掉在哪<span>AI 營收長</span></button>
+        <button class="issue" role="tab" id="tab-cash" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="cash">帳上有賺，戶頭卻沒錢<span>AI 財務長</span></button>
+        <button class="issue" role="tab" id="tab-price" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="price">大客戶要你降價 10%<span>AI 策略長</span></button>
+        <button class="issue" role="tab" id="tab-post" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="post">每週都不知道要發什麼文<span>AI 行銷長</span></button>
+        <button class="issue" role="tab" id="tab-ops" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="ops">老員工一走，做法就跟著走<span>AI 營運長</span></button>
       </div>
-      <article class="memo" id="memo" role="tabpanel" aria-labelledby="tab-leave" aria-live="polite">
+      <article class="memo" id="memo" role="tabpanel" aria-labelledby="tab-sales">
         <p class="memo-who" id="m-who"></p>
         <p class="memo-q" id="m-q"></p>
-        <h3>局勢怎麼看</h3>
-        <p class="memo-read" id="m-read"></p>
-        <h3>接下來三步</h3>
-        <ol class="steps" id="m-steps"></ol>
-        <h3>可以直接傳出去的訊息</h3>
-        <p class="send" id="m-send"></p>
-        <button class="copy" id="copy" type="button">複製這則訊息</button>
-        <p class="memo-note">這是示範情境。涉及法律、稅務或勞資爭議時，請再找專業人士確認。</p>
+        <h3>你丟給它的資料</h3>
+        <ul class="files" id="m-files"></ul>
+        <h3>它正在做的事</h3>
+        <ol class="log" id="m-log"></ol>
+        <h3>交給你的結果</h3>
+        <div class="result hold" id="m-result" aria-live="polite">
+          <p class="result-head" id="m-head"></p>
+          <table class="rt" id="m-table"></table>
+        </div>
+        <h3>你只要做一個決定</h3>
+        <p class="decide" id="m-decide"></p>
+        <p class="daily"><b>之後</b><span id="m-daily"></span></p>
+        <p class="memo-note">畫面上的公司和數字是示範資料。課程當天，你用自己公司的資料，現場做出你自己的這一位。</p>
       </article>
     </div>
   </div>
@@ -610,61 +645,176 @@ const CONFIG = {
   }
 };
 
+/* 試用區：五位 AI 長官拿到資料後怎麼做事（示範資料） */
 const CASES = {
-  leave: {
-    who: "AI 營運長回答",
-    q: "跟了你三年、剛訓練好的業務說下個月要離職。",
-    read: "現在最重要的不是留不留人，是他手上的客戶和做法有沒有留在公司。先保住交接，再談去留。",
-    steps: ["今天先列出他手上的客戶、報價和進行中的案子。", "安排兩週交接，每個客戶由你或接手的人一起聯絡一次。", "把他的做事方法寫成步驟交給 AI 營運長，下一個人照著做。"],
-    send: "這段時間辛苦了。離職前兩週，我們一起把客戶和案子交接清楚，我會跟你一起拜訪重要客戶，讓客戶安心，也讓你走得順。"
+  sales: {
+    who: "AI 營收長",
+    q: "今年 1～10 月營業額比去年同期少了 18%。業務說是市場不好，你也說不出問題在哪。",
+    files: [["xlsx", "近兩年銷售明細 3,412 筆"], ["xlsx", "客戶名單"], ["pdf", "本季報價單 26 張"]],
+    log: [
+      "讀完 3,412 筆訂單，依客戶、產品、月份拆開",
+      "跟去年同期比：營業額從 1,520 萬掉到 1,246 萬，少了 <em>274 萬</em>",
+      "追查少掉的錢從哪裡來：<em>198 萬</em>集中在 3 位老客戶",
+      "比對報價單：這 3 位有 5 張報價發出去以後沒人跟進",
+      "排出這週該先打的電話"
+    ],
+    head: "業績不是全面下滑。少掉的 274 萬裡，有 <strong>198 萬（72%）</strong>集中在 3 位老客戶，而且最近都沒人去拜訪。",
+    cols: ["客戶", "比去年", "最後下單", "建議"],
+    rows: [
+      ["宏昌機械", "少 96 萬", "8/12", "2 張報價沒跟進，這週先打", 1],
+      ["永豐包材", "少 64 萬", "7/3", "有一個品項改跟別家買，問原因"],
+      ["德利食品", "少 38 萬", "9/20", "單量變小，問明年的計畫"]
+    ],
+    decide: "這週派誰去拜訪這 3 位客戶。",
+    daily: "每週一早上 8 點，它把上週業績、掉最多的客戶、還沒跟進的報價整理好給你。老客戶超過 45 天沒下單，它就提醒你。"
+  },
+  cash: {
+    who: "AI 財務長",
+    q: "損益表上今年賺了 320 萬，可是每到月底要發薪水，戶頭都很緊。",
+    files: [["xlsx", "應收帳款明細"], ["csv", "銀行存摺匯出 近 6 個月"], ["xlsx", "固定支出與貸款"]],
+    log: [
+      "對完 6 個月的銀行進出和 412 張發票",
+      "算出收款速度：客戶平均 <em>78 天</em>才付錢，你付廠商平均只要 <em>35 天</em>",
+      "找出逾期超過 60 天的帳款：4 筆，共 <em>186 萬</em>",
+      "推算未來 90 天，每一週戶頭還剩多少",
+      "標出會低於安全水位的那一週"
+    ],
+    head: "你不是沒賺錢，是錢卡在客戶那裡。照現在的收款速度，<strong>1 月第 3 週戶頭只剩 42 萬</strong>，剛好碰上年終和貸款。先收回下面 4 筆就不用借錢，其中 46 萬是自己的文件沒補齊。",
+    cols: ["客戶", "金額", "逾期", "先怎麼做"],
+    rows: [
+      ["大成營造", "88 萬", "95 天", "打電話要確切日期，可以分兩期", 1],
+      ["金隆貿易", "52 萬", "71 天", "下一批貨改成款到才出貨"],
+      ["和興工程", "31 萬", "64 天", "發票寄錯地址，補寄就能請款"],
+      ["立群企業", "15 萬", "62 天", "對方在等你補簽收單"]
+    ],
+    decide: "逾期最久的兩家，要不要改成款到才出貨。",
+    daily: "每天早上它告訴你今天該收哪幾筆、該付哪幾筆。戶頭預估會低於你設的安全水位，它提前 30 天提醒你。"
   },
   price: {
-    who: "AI 策略長回答",
-    q: "大客戶傳來一句：這次不降 10%，我們只能找別家了。",
-    read: "喊著要換，通常代表他還沒換。他需要的可能是一個能跟老闆交代的結果。",
-    steps: ["先算出這張單的真實毛利和你的底線。", "不要單純降價，用加量、長約或縮短付款期來交換。", "給兩個方案讓他選，把問題從降不降變成選哪個。"],
-    send: "李總，這次的價格我回去算過了。如果數量加到 1,200 件，或付款改成 30 天，我可以給您 5% 的優惠。這兩個方案您看哪個比較方便？"
-  },
-  busy: {
-    who: "AI 營收長回答",
-    q: "每天接案、交件、回客戶，忙到這個月完全沒時間找新客戶。",
-    read: "不是你不夠努力，是每件事都要經過你。先從最容易成交的老客戶開始，不用從零開發。",
-    steps: ["列出半年沒聯絡、但以前成交過的 10 位客戶。", "每天聯絡 2 位，只問近況和明年的計畫，不推銷。", "有需求的客人記下來，交給 AI 營收長每週提醒你跟進。"],
-    send: "林總好久不見，年底想跟合作過的客戶聊聊明年的計畫。我最近多了一些新的做法，這週方便約 20 分鐘電話嗎？"
+    who: "AI 策略長",
+    q: "一年跟你買 480 萬的大客戶說：明年不降 10%，就換供應商。",
+    files: [["xlsx", "這位客戶近 2 年訂單"], ["xlsx", "產品成本表"], ["pdf", "3 家同業公開報價"]],
+    log: [
+      "算這位客戶的真實毛利：扣掉運費、退貨和業務時間，是 <em>21%</em>，不是你以為的 28%",
+      "試算直接降 10%：毛利剩 <em>12%</em>，一年少賺 <em>48 萬</em>",
+      "比對 3 家同業報價：你只比最低的那家貴 <em>4%</em>",
+      "他換掉你要重新打樣、驗廠，換的成本不低",
+      "試算 3 種回法，排出你的底線"
+    ],
+    head: "不要直接降 10%。同業最低價只比你便宜 4%，他要換掉你沒那麼容易。<strong>用第 2 案回他</strong>，一年少賺的錢從 48 萬降到約 12 萬。",
+    cols: ["回法", "他得到什麼", "你的毛利", "一年少賺"],
+    rows: [
+      ["直接降 10%", "便宜 10%", "12%", "48 萬"],
+      ["降 5%，換年量多 15%、改月結 30 天", "便宜 5%，供貨更穩", "17%", "約 12 萬", 1],
+      ["不降價，保固多送 1 年", "少擔心售後", "19%", "約 10 萬"]
+    ],
+    decide: "要用第 2 案還是第 3 案去談。",
+    daily: "以後每張大單報價前，它先幫你算好底線和可以讓的條件。客戶殺價時，你手上已經有數字。"
   },
   post: {
-    who: "AI 行銷長回答",
-    q: "貼文發了很多，沒人按讚，也沒人來問。",
-    read: "最常見的問題是只介紹產品。客人想看的是你幫誰解決了什麼問題。",
-    steps: ["挑一位最近成交的客人，寫下他原本卡在哪裡。", "寫你怎麼幫他解決，引用客人說的話前先徵得同意。", "每週固定發 2 篇，連續一個月，再看哪一種最多人來問。"],
-    send: "上週有位做餐飲的老闆來找我，他說最頭痛的是每天都要回一樣的訂位問題。我們幫他把常見問題整理好，現在一天少回好幾十則訊息。你的店也常被問同樣的問題嗎？"
+    who: "AI 行銷長",
+    q: "想經營 FB、Threads，可是每週坐下來都不知道要寫什麼，寫了也沒人留言。",
+    files: [["csv", "LINE 官方帳號客人訊息 1,286 則"], ["csv", "過去 40 篇貼文成效"], ["docx", "3 個成交案例紀錄"]],
+    log: [
+      "把 1,286 則客人訊息分類：最常問<em>交期</em>（214 次）、<em>最低訂量</em>（167 次）、<em>能不能客製</em>（121 次）",
+      "比對 40 篇貼文：「客戶案例」平均留言 <em>23 則</em>，「產品介紹」只有 <em>3 則</em>",
+      "從客人的問題和成交案例，寫出下週 3 篇草稿",
+      "排好發文時間"
+    ],
+    head: "客人一直在問的事，就是最好的題目。<strong>下週 3 篇已經寫好</strong>，你看過按「好」，它就排上去。",
+    cols: ["時間", "主題", "開頭第一句"],
+    rows: [
+      ["週二 12:00", "客戶案例", "「這位老闆原本等貨要 45 天，後來只要 18 天，他做對了一件事。」", 1],
+      ["週四 20:00", "回答最常被問的事", "「最低訂量能不能少一點？這個月被問了 167 次，一次講清楚。」"],
+      ["週六 10:00", "幕後", "「客製一個新品，從圖面到打樣，我們內部要過 6 關。」"]
+    ],
+    decide: "3 篇看一遍，按「好」或改一句。",
+    daily: "每週日晚上它交下週的草稿。每週一告訴你上週哪一篇有人來問，下週多寫哪一種。"
   },
-  debt: {
-    who: "AI 財務長回答",
-    q: "合作三年的老客戶，貨款拖了兩個月，每次都說下週匯。",
-    read: "先算清楚這筆錢沒進來，公司現金還能撐多久，再決定要多硬。對方還願意回訊息，代表還想維持關係。",
-    steps: ["先算這筆錢沒收到，公司現金還夠用幾個月。", "打電話要一個確切日期和金額，可以分期，但要留下文字紀錄。", "約定日沒入帳，就改成款到才出貨。"],
-    send: "王總，跟您確認一下，9 月那筆 12 萬貨款目前還沒入帳。您方便告訴我哪一天可以匯嗎？如果要分兩次也可以，我們先排好，下一批貨才能照常安排。"
+  ops: {
+    who: "AI 營運長",
+    q: "做了 8 年的資深業助要離職。報價、下單、客訴怎麼處理，全都在她腦袋裡。",
+    files: [["txt", "她近一年的 LINE 工作群組紀錄"], ["xlsx", "她做的報價單 340 張"], ["m4a", "請她口述流程的錄音 40 分鐘"]],
+    log: [
+      "聽完 40 分鐘錄音，轉成文字",
+      "從 340 張報價單找出她的計價規則：哪些客戶打幾折、急件加多少",
+      "從群組紀錄整理她處理過的 63 件客訴，歸成 9 種",
+      "寫成新人照著做的步驟，標出要你決定的地方",
+      "拿她過去 20 件真實案子考自己：答對 <em>18 件</em>，答錯的 2 件標給你看"
+    ],
+    head: "她的做法變成公司的一本手冊，加上一位 24 小時回答新人的 AI 營運長。<strong>新人問「這個客戶急件要加多少」，不用再打電話問她。</strong>",
+    cols: ["整理出來的", "內容"],
+    rows: [
+      ["報價規則", "12 條，含 5 位大客戶的固定折扣"],
+      ["下單流程", "從接單到出貨 14 個步驟"],
+      ["客訴處理", "9 種狀況，每一種第一句怎麼回"],
+      ["要你決定的", "4 件她以前自己拿主意、沒寫下來的事", 1]
+    ],
+    decide: "那 4 件她自己拿主意的事，以後由誰決定。",
+    daily: "新人有問題先問 AI 營運長，它回答不了的才轉給你。每週告訴你新人最常卡在哪一步。"
   }
 };
 
 const $ = (id) => document.getElementById(id);
 const tabs = [...document.querySelectorAll(".issue")];
-let current = "leave";
+const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let timers = [];
+
+function el(tag, html, cls) {
+  const n = document.createElement(tag);
+  if (html != null) n.innerHTML = html;
+  if (cls) n.className = cls;
+  return n;
+}
 
 function showCase(key, focus) {
   const c = CASES[key];
-  current = key;
-  $("m-who").textContent = c.who;
+  timers.forEach(clearTimeout);
+  timers = [];
+  $("m-who").textContent = c.who + "接手";
   $("m-q").textContent = c.q;
-  $("m-read").textContent = c.read;
-  $("m-steps").replaceChildren(...c.steps.map((s) => {
-    const li = document.createElement("li");
-    li.textContent = s;
+  $("m-files").replaceChildren(...c.files.map(([ext, name]) => {
+    const li = el("li");
+    li.append(el("b", ext.toUpperCase()), document.createTextNode(name));
     return li;
   }));
-  $("m-send").textContent = c.send;
-  $("copy").textContent = "複製這則訊息";
+  const items = c.log.map((t) => el("li", "<span>" + t + "</span>", calm ? "done" : "wait"));
+  $("m-log").replaceChildren(...items);
+  $("m-head").innerHTML = c.head;
+  const thead = el("thead");
+  const hr = el("tr");
+  c.cols.forEach((h) => hr.append(el("th", h)));
+  thead.append(hr);
+  const tbody = el("tbody");
+  c.rows.forEach((r) => {
+    const tr = el("tr", null, r[c.cols.length] ? "hi" : "");
+    c.cols.forEach((_, i) => {
+      const td = el("td", null, /^[\d約少週]/.test(r[i]) && r[i].length < 12 ? "n" : "");
+      td.textContent = r[i];
+      td.dataset.label = c.cols[i];
+      tr.append(td);
+    });
+    tbody.append(tr);
+  });
+  $("m-table").replaceChildren(thead, tbody);
+  $("m-decide").textContent = c.decide;
+  $("m-daily").textContent = c.daily;
+  const result = $("m-result");
+  if (calm) {
+    result.classList.remove("hold");
+  } else {
+    result.classList.add("hold");
+    items.forEach((li, i) => {
+      timers.push(setTimeout(() => {
+        if (i > 0) items[i - 1].className = "done";
+        li.className = "run";
+      }, 150 + i * 700));
+    });
+    timers.push(setTimeout(() => {
+      items[items.length - 1].className = "done";
+      result.classList.remove("hold");
+    }, 150 + items.length * 700));
+  }
   tabs.forEach((t) => {
     const on = t.dataset.case === key;
     t.setAttribute("aria-selected", on);
@@ -675,30 +825,27 @@ function showCase(key, focus) {
     }
   });
 }
+let picked = false;
 tabs.forEach((t, i) => {
-  t.addEventListener("click", () => showCase(t.dataset.case));
+  t.addEventListener("click", () => { picked = true; showCase(t.dataset.case); });
   t.addEventListener("keydown", (e) => {
     const move = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
     if (!move) return;
     e.preventDefault();
+    picked = true;
     showCase(tabs[(i + move + tabs.length) % tabs.length].dataset.case, true);
   });
 });
-showCase("leave");
-
-$("copy").addEventListener("click", async () => {
-  try {
-    await navigator.clipboard.writeText(CASES[current].send);
-    $("copy").textContent = "已複製";
-  } catch {
-    const range = document.createRange();
-    range.selectNodeContents($("m-send"));
-    const sel = getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
-    $("copy").textContent = "已選取，請按複製";
-  }
-});
+/* 先跑一次；捲到「它正在做的事」時再重跑一次，讓人看到 AI 做事的過程 */
+showCase("sales");
+if ("IntersectionObserver" in window && !calm) {
+  const io = new IntersectionObserver((es) => {
+    if (!es.some((e) => e.isIntersecting)) return;
+    io.disconnect();
+    if (!picked) showCase("sales");
+  }, { threshold: 0.6 });
+  io.observe($("m-log"));
+}
 
 const form = $("form");
 const invoiceType = $("invoiceType");
