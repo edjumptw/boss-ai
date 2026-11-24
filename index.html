@@ -57,7 +57,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hero-grid{position:relative;display:grid;gap:34px;padding:24px 0 56px}
 .hero h1{font-weight:900;font-size:clamp(2.3rem,6.6vw,4.2rem);line-height:1.18;letter-spacing:-.01em}
 .hero h1 .glow{background:linear-gradient(transparent 62%,rgba(242,173,56,.55) 62%)}
-.hero-lead{margin-top:20px;font-size:clamp(1.05rem,2vw,1.22rem);line-height:1.75;max-width:34em;color:var(--ink-soft)}
+.hero-kicker{margin-top:18px;font-weight:700;font-size:clamp(1.15rem,2.3vw,1.4rem);line-height:1.6}
+.hero-lead{margin-top:10px;font-size:clamp(1.05rem,2vw,1.22rem);line-height:1.75;max-width:34em;color:var(--ink-soft)}
 .facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:26px}
 .facts div{background:var(--tint);border-radius:14px;padding:12px 14px}
 .facts dt{font-size:13.5px;color:var(--ink-soft);line-height:1.4}
@@ -333,8 +334,9 @@ button,input,select,textarea{font:inherit;color:inherit}
     </nav>
     <div class="hero-grid">
       <div>
-        <h1>老闆最缺的，<br>不是人手，<br>是一個懂生意的<br><span class="glow">經營團隊。</span></h1>
-        <p class="hero-lead">你交辦一件事，一整隊 AI 分工做到交件，只把決定留給你。12/30 在高雄，用一天實作：建好你的 AI 營運長、裝好 AI 策略長，再從營收長、行銷長、財務長選一位現場完成。</p>
+        <h1>一句話交辦，<br>整隊 AI <span class="glow">做到交件。</span></h1>
+        <p class="hero-kicker">老闆最缺的，不是人手，是一個懂生意的經營團隊。</p>
+        <p class="hero-lead">分工、把關、退件修改都由團隊自己來，只把要拍板的事留給你。12/30 在高雄，用一天實作：建好你的 AI 營運長、裝好 AI 策略長，再從營收長、行銷長、財務長選一位現場完成。</p>
         <dl class="facts">
           <div><dt>上課日期</dt><dd>12/30（三）</dd></div>
           <div><dt>上課時間</dt><dd>09:00～16:00<small>含商務便當交流會</small></dd></div>
@@ -718,7 +720,10 @@ if (calm || !("IntersectionObserver" in window)) {
   const ro = new IntersectionObserver((es) => {
     if (es.some((e) => e.isIntersecting)) { ro.disconnect(); playRelay(); }
   }, { threshold: 0.3 });
-  ro.observe(document.getElementById("relay"));
+  const relayBox = document.getElementById("relay");
+  ro.observe(relayBox);
+  /* 桌機一打開就看得到，直接演 */
+  if (relayBox.getBoundingClientRect().top < innerHeight * 0.7) playRelay();
   setTimeout(playRelay, 9000);
 }
 
