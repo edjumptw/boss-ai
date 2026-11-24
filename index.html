@@ -151,6 +151,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .issue[aria-selected="true"]{background:var(--amber);border-color:var(--amber);color:var(--board)}
 .issue[aria-selected="true"] span{color:var(--walnut)}
 .memo{background:var(--page);color:var(--ink);padding:26px 22px;border-radius:var(--r);box-shadow:0 24px 50px rgba(0,0,0,.3)}
+.skill{margin-top:12px;display:flex;gap:10px;align-items:flex-start;background:var(--ink);color:#fff;border-radius:12px;padding:10px 14px;font-size:15px;line-height:1.6}
+.skill::before{content:"它怎麼辦到";flex:none;font-size:12.5px;font-weight:700;color:var(--ink);background:var(--amber);border-radius:999px;padding:1px 10px;margin-top:2px}
 .memo-who svg{width:24px;height:24px;flex:none}
 .memo-who{display:inline-flex;align-items:center;gap:8px;background:var(--tint);color:var(--walnut);font-size:14px;font-weight:700;padding:4px 12px;border-radius:999px;line-height:1.5}
 .memo-q{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,2.5vw,1.4rem);line-height:1.6;margin-top:12px}
@@ -405,15 +407,16 @@ button,input,select,textarea{font:inherit;color:inherit}
     <p class="desk-sub">點一件事，看誰接手、怎麼查、最後交給你什麼。</p>
     <div class="desk-grid">
       <div class="issues" role="tablist" aria-label="選一件公司難題">
-        <button class="issue" role="tab" id="tab-signup" aria-controls="memo" aria-selected="true" data-case="signup">報名一多，名單就亂掉<span>AI 營運長</span></button>
-        <button class="issue" role="tab" id="tab-grant" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="grant">政府補助，有我的份嗎<span>AI 財務長</span></button>
-        <button class="issue" role="tab" id="tab-meet" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="meet">明天見客戶，還沒做功課<span>AI 營收長</span></button>
-        <button class="issue" role="tab" id="tab-peer" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="peer">同業做得比我好，好在哪<span>AI 策略長</span></button>
-        <button class="issue" role="tab" id="tab-reply" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="reply">留言私訊，回都回不完<span>AI 行銷長</span></button>
+        <button class="issue" role="tab" id="tab-login" aria-controls="memo" aria-selected="true" data-case="login">每月登入一堆後台抓發票<span>AI 財務長</span></button>
+        <button class="issue" role="tab" id="tab-night" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="night">想開發客戶，白天沒空<span>AI 營收長</span></button>
+        <button class="issue" role="tab" id="tab-mail" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="mail">詢價信一來，都要等我回<span>AI 營運長</span></button>
+        <button class="issue" role="tab" id="tab-teach" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="teach">每週要看數字，都要人整理<span>AI 策略長</span></button>
+        <button class="issue" role="tab" id="tab-voice" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="voice">AI 寫的文，不像我講的話<span>AI 行銷長</span></button>
       </div>
-      <article class="memo" id="memo" role="tabpanel" aria-labelledby="tab-signup">
+      <article class="memo" id="memo" role="tabpanel" aria-labelledby="tab-login">
         <p class="memo-who" id="m-who"></p>
         <p class="memo-q" id="m-q"></p>
+        <p class="skill" id="m-skill"></p>
         <h3>你丟給它的資料</h3>
         <ul class="files" id="m-files"></ul>
         <h3>它正在做的事</h3>
@@ -426,7 +429,7 @@ button,input,select,textarea{font:inherit;color:inherit}
         <h3>你只要做一個決定</h3>
         <p class="decide" id="m-decide"></p>
         <p class="daily"><b>之後</b><span id="m-daily"></span></p>
-        <p class="memo-note">依講師自己 AI 團隊這幾週的實際工作改編，公司名、人名和數字都已換掉。課程當天，你用自己公司的資料做出你的這一位。</p>
+        <p class="memo-note">以上是示範情境，公司和數字都是舉例。課程當天，你用自己公司的資料，現場做出你的這一位。</p>
       </article>
     </div>
   </div>
@@ -729,112 +732,115 @@ if (calm || !("IntersectionObserver" in window)) {
 
 /* 試用區：點一件事，看誰接手、怎麼查、交給你什麼（依講師團隊實際工作改編） */
 const CASES = {
-  signup: {
-    bot: "ops", who: "AI 營運長",
-    q: "這週報名信一直進來，有人報兩次、有人匯款金額不對，你每天晚上自己對到半夜。",
-    files: [["信件", "報名通知信 23 封"], ["xlsx", "報名總表"], ["csv", "網銀入帳明細"]],
-    log: [
-      "23 封報名信逐封登記到報名總表",
-      "比對姓名和電話：<em>2 筆</em>是同一人報兩次，標註、不刪",
-      "對照網銀入帳：<em>3 筆</em>金額對不上，標成待確認",
-      "每晚 21:30 統計，寫好今晚摘要",
-      "只把例外交給你，其他不吵你"
-    ],
-    head: "23 封報名信都登記好了。扣掉 2 筆重複，實際 <strong>21 人：17 人已繳費、3 人金額對不上、1 人還沒繳</strong>。",
-    cols: ["報名者", "狀況", "它的判斷"],
-    rows: [
-      ["林小姐", "匯 4,800，應繳 5,800", "可能想用兩人同行價，但只報了一人", 1],
-      ["陳先生", "匯 9,600，只填一人", "同行的人還沒填資料"],
-      ["黃經理", "匯 5,000", "少 800，可能是打錯金額"],
-      ["張老闆", "報名 3 天還沒繳", "提醒一次就好"]
-    ],
-    decide: "林小姐那筆，要不要讓她補報一位同行的人。",
-    daily: "每晚 21:30 回報人數。只有重複報名、金額不對、名額快滿，才來找你。"
-  },
-  grant: {
+  login: {
     bot: "fin", who: "AI 財務長",
-    q: "聽說政府有補助可以申請，但官網一大堆條文，你看不下去，也不知道自己公司符不符合。",
-    files: [["網頁", "3 個官方補助網頁"], ["pdf", "公司登記資料"], ["xlsx", "員工名冊（已去除個資）"]],
+    q: "每到月初，你或會計要登入 6 個廠商後台、2 個電商後台，一個一個下載發票、對帳，花掉一整個下午。",
+    skill: "它有自己的電腦和瀏覽器，會登入你在用的網站，沒有串接也能做。",
+    files: [["網頁", "6 個廠商後台"], ["網頁", "2 個電商賣家後台"], ["xlsx", "會計要的對帳表"]],
     log: [
-      "打開 3 個官方網頁，逐條讀資格、金額、申請期限",
-      "對照公司資料，整理出 <em>14 項</em>可能相關的補助",
-      "看不出符不符合的 <em>5 項</em>標成待確認，列出要補什麼資料",
-      "送審被退回兩次：一次漏寫申請期限，一次沒附官方原文連結",
-      "補齊後交件，每一項都能點回官方原文"
+      "用你授權的帳號，逐一登入 8 個後台",
+      "下載 11 月發票 <em>47 張</em>，依廠商分資料夾",
+      "跟採購單逐張對：<em>45 張</em>金額相符",
+      "<em>2 張</em>對不上：一張多了 1,200 元，一張同一筆開了兩次",
+      "填進會計要的對帳表；遇到要簡訊驗證碼的後台，停下來等你"
     ],
-    head: "14 項裡，<strong>4 項看起來符合、5 項要補資料才能判斷、5 項不符合</strong>。看起來符合的，都標了申請期限和官方原文。",
-    cols: ["類別", "結果", "下一步"],
+    head: "47 張發票都抓好、對好了。<strong>45 張相符，2 張有問題</strong>，要問廠商的話也寫好了。",
+    cols: ["項目", "狀況", "它怎麼處理"],
     rows: [
-      ["員工訓練類", "看起來符合", "先確認上課時數有沒有達標", 1],
-      ["數位轉型類", "看起來符合", "要先準備導入計畫書"],
-      ["僱用獎勵類", "要補資料", "需要新進員工的到職日"],
-      ["設備投資類", "不符合", "公司規模超過門檻"]
+      ["A 廠商 11/08 發票", "比採購單多 1,200 元", "詢問信擬好，等你按寄出", 1],
+      ["B 廠商 11/15 發票", "同一筆開了兩張", "標註，請廠商作廢一張"],
+      ["C 電商後台", "登入要簡訊驗證碼", "停下來，等你在手機輸入"]
     ],
-    decide: "看起來符合的 4 項，先深入確認哪一項。",
-    daily: "官方網頁一更新或開放申請，它就提醒你；申請截止前 14 天再提醒一次。"
+    decide: "給 A 廠商的詢問信，要不要寄出。",
+    daily: "每月 3 號自動跑一次。驗證碼、付款這類事，它一定停下來等你。"
   },
-  meet: {
+  night: {
     bot: "rev", who: "AI 營收長",
-    q: "明天的商務交流會有 12 位老闆報名，你只認識兩位，到現場才臨時想要聊什麼。",
-    files: [["xlsx", "活動報名名單 12 家"], ["pdf", "你的服務介紹"]],
+    q: "你知道該開發新客戶，但白天被訂單和員工追著跑，名單放了三個月都沒動。",
+    skill: "它 24 小時在做事，做完只把要你核准的東西放到你面前。",
+    files: [["xlsx", "過去成交的客戶 30 家"], ["文字", "你的服務介紹"]],
     log: [
-      "逐一查 12 家公司的官網和公開登記資料",
-      "整理每家做什麼、服務誰、最近有什麼動態",
-      "對照你的服務，找出可能合作的地方",
-      "同名或資料太少的 <em>2 家</em>標成待確認，不亂猜",
-      "做成一人一張會前小抄，排出先聊的順序"
+      "晚上 11 點開工：分析 30 家老客戶，找出共同點（產業、規模、地區）",
+      "照同樣條件上網找，列出 <em>20 家</em>還沒合作過的公司",
+      "逐家看官網和最近動態，刪掉 <em>4 家</em>已經歇業或搬走的",
+      "剩下 16 家，每家寫一封提到對方近況的開發信，一封都不寄",
+      "早上 7 點前，放進你的待核准清單"
     ],
-    head: "12 家裡，<strong>3 家跟你最有機會合作</strong>，每家都準備好一個開場問題。",
-    cols: ["公司", "他們在做什麼", "開場可以問"],
+    head: "你睡覺的時候，<strong>16 封開發信已經寫好</strong>，每封都提到對方公司最近的事，等你看過再寄。",
+    cols: ["公司", "為什麼找它", "信的第一句"],
     rows: [
-      ["甲公司", "餐飲連鎖，今年開了 2 家新店", "「新店的人手怎麼訓練？」", 1],
-      ["乙公司", "工業零件，剛開始接外銷單", "「外銷客戶都從哪裡來？」"],
-      ["丙公司", "室內設計，官網正在徵業務", "「新業務多久才能獨立接案？」"]
+      ["甲食品", "跟你 3 位老客戶同產業，剛擴廠", "「看到貴公司 10 月新廠動工，想請教…」", 1],
+      ["乙物流", "同在高雄，正在徵倉管", "「注意到貴公司最近在找倉管人員…」"],
+      ["丙設計", "官網剛改版，多了企業客戶頁", "「看到貴公司開始接企業客戶…」"]
     ],
-    decide: "明天先跟哪一家深聊。",
-    daily: "每次活動前一晚，它自動把名單做成小抄。聊完你說一句重點，它記進客戶名單，到時間提醒你追蹤。"
+    decide: "16 封裡，哪幾封可以寄。",
+    daily: "每週二、四晚上各跑一輪。有人回信，它整理好重點，早上告訴你。"
   },
-  peer: {
+  mail: {
+    bot: "ops", who: "AI 營運長",
+    q: "客人寄信來詢價，要查庫存、算運費、套折扣，員工不敢報，全部等你回。客人等了兩天，就跑了。",
+    skill: "一封信進來，它就自己開工，不用你叫。",
+    files: [["信件", "客人的詢價信"], ["xlsx", "庫存表"], ["文字", "你的報價規則"]],
+    log: [
+      "14:32 收到詢價信，讀出要 A 款 300 個、B 款 120 個",
+      "查庫存表：A 款夠，B 款只剩 <em>80 個</em>，補貨要 10 天",
+      "照你的報價規則：300 個以上打 95 折，運費照運費表算",
+      "擬好回信：B 款先出 80 個，其餘 40 個 10 天後補",
+      "14:41 把報價單和回信傳到你手機，等你核准"
+    ],
+    head: "客人 14:32 來信，<strong>9 分鐘後報價就擬好了</strong>。你在外面用手機看一眼，按核准就寄出。",
+    cols: ["品項", "數量", "報價怎麼算"],
+    rows: [
+      ["A 款", "300 個", "打 95 折，庫存足夠"],
+      ["B 款", "120 個", "先出 80 個，40 個 10 天後補", 1],
+      ["運費", "1 批", "照你的運費表計算"]
+    ],
+    decide: "這份報價，要不要直接寄出。",
+    daily: "之後每封詢價信都這樣處理。超過你設的金額，或要給特別折扣，才停下來問你。"
+  },
+  teach: {
     bot: "str", who: "AI 策略長",
-    q: "同業生意好像越做越好，你知道他們有在經營社群，但不知道好在哪、你該學哪一招。",
-    files: [["文字", "你列的 3 家同業"], ["網頁", "你自己的官網和粉專"]],
+    q: "你想每週看一次營運數字，但數字散在 POS、會計軟體、廣告後台，叫員工整理一次就要半天。",
+    skill: "你做一次給它看，它把步驟記下來，之後每週自動做。",
+    files: [["網頁", "POS 後台"], ["網頁", "廣告後台"], ["xlsx", "你自己做過的一份週報"]],
     log: [
-      "先把大量搜尋交給另一個 AI 跑，找出 3 家同業在 6 個平台的帳號",
-      "自己逐一打開 <em>9 個</em>帳號連結驗收，刪掉 2 個已經停更的",
-      "把「看得到的事實」和「推測」分開寫",
-      "對照你自己的帳號，找出差距",
-      "整理成 3 個你可以先試的做法"
+      "第一次：看你示範怎麼從 3 個後台抓數字、做成表",
+      "把步驟存起來，變成每週一早上 7 點的固定工作",
+      "這週一，自己登入 3 個後台抓數字",
+      "跟上週、去年同期比，挑出變化最大的 3 件事",
+      "7:30 把一頁週報傳到你手機"
     ],
-    head: "同業贏你的不是預算，是<strong>固定節奏</strong>：3 家裡有 2 家每週固定發客戶案例，你過去 2 個月只發過 1 篇。",
-    cols: ["做法", "同業在哪裡做", "你試的成本"],
+    head: "這是它自己做的第 6 份週報。<strong>這週營業額比上週少 8%，問題出在平日晚上</strong>。",
+    cols: ["數字", "這週", "它的提醒"],
     rows: [
-      ["每週一篇客戶案例", "2 家都在 Threads 和 FB", "每週口述 30 分鐘，AI 寫稿", 1],
-      ["回答客人常問的問題", "1 家做成短影片系列", "拿 LINE 客人提問當題目"],
-      ["老闆親自出鏡講觀點", "1 家每月一支", "先試 1 支，看反應"]
+      ["營業額", "比上週少 8%", "平日晚上來客少了一成，週末正常", 1],
+      ["廣告花費", "比上週多 15%", "點擊變多，成交沒增加，建議先停 1 組"],
+      ["客單價", "跟上週差不多", "不用處理"]
     ],
-    decide: "3 個做法先試哪一個。",
-    daily: "每週一看一次同業有什麼新動作，值得注意的才告訴你。"
+    decide: "要不要先停掉那組廣告。",
+    daily: "每週一 7:30 準時到你手機。數字變化超過你設的幅度，它會多寫一段原因。"
   },
-  reply: {
+  voice: {
     bot: "mkt", who: "AI 行銷長",
-    q: "貼文有人留言、LINE 有人私訊，你白天忙到沒空回，晚上回到一半就睡著。",
-    files: [["網頁", "Threads 新留言"], ["網頁", "LINE 官方帳號私訊"], ["文字", "你的回覆原則"]],
+    q: "你試過叫 AI 寫貼文，寫出來像教科書，每篇都要改到面目全非，最後乾脆自己寫。",
+    skill: "它記得你怎麼改、喜歡什麼，越用越像你。",
+    files: [["文字", "你過去 30 篇貼文"], ["文字", "你改過它的 12 份稿子"]],
     log: [
-      "每天 12:00、00:00 讀一次新留言和私訊",
-      "分成四類：問價格、問課程、閒聊、廣告",
-      "照你的回覆原則寫回覆稿，送審通過才發",
-      "發完讀回一次，確認每則只回一次、沒有回錯人",
-      "問價格、想報名的，整理給你"
+      "讀你過去 30 篇貼文，記下你的口頭禪和句子長短",
+      "比對你改過的 12 份稿子：你常刪掉「首先」「總之」，常把長句切短",
+      "把這些寫成它自己的寫作規矩，存進記憶",
+      "照新規矩寫這週 3 篇草稿",
+      "標出哪幾句是照你上次的改法寫的"
     ],
-    head: "昨天 18 則新留言：<strong>回了 13 則、廣告 3 則不回、2 則問價格的交給你</strong>。",
-    cols: ["時間", "留言", "它怎麼處理"],
+    head: "它把你的改法變成規矩。<strong>你改得越多次，下一篇要改的就越少。</strong>",
+    cols: ["它記住的規矩", "從哪裡學到的"],
     rows: [
-      ["12:04", "「這個課適合一人公司嗎？」", "已回覆，附上報名頁"],
-      ["12:10", "「兩個人一起報有優惠嗎？」", "問價格，交給你", 1],
-      ["00:02", "「加我 LINE 賺被動收入」", "廣告，不回"]
+      ["不用「首先」「總之」", "你在 12 份稿子裡刪了 9 次"],
+      ["一段不超過 3 句", "你過去 30 篇貼文的寫法"],
+      ["結尾問讀者一個問題", "你按讚最多的 5 篇都這樣寫", 1]
     ],
-    decide: "問價格的 2 位，你親自回，還是照價目表回。",
-    daily: "每天中午、半夜各跑一次。同一個人第二次問價格，它會提醒你這位是熱客人。"
+    decide: "這 3 篇，哪一篇先不要發。",
+    daily: "你每改一個字，它都記下來，下次就照你的方式寫。"
   }
 };
 
@@ -855,6 +861,7 @@ function showCase(key, focus) {
   timers = [];
   $("m-who").innerHTML = botSVG(c.bot) + "<span>" + c.who + "接手</span>";
   $("m-q").textContent = c.q;
+  $("m-skill").textContent = c.skill;
   $("m-files").replaceChildren(...c.files.map(([ext, name]) => {
     const li = el("li");
     li.append(el("b", null), document.createTextNode(name));
@@ -920,12 +927,12 @@ tabs.forEach((t, i) => {
   });
 });
 /* 先跑一次；捲到「它正在做的事」時再重跑一次，讓人看到做事的過程 */
-showCase("signup");
+showCase("login");
 if ("IntersectionObserver" in window && !calm) {
   const io = new IntersectionObserver((es) => {
     if (!es.some((e) => e.isIntersecting)) return;
     io.disconnect();
-    if (!picked) showCase("signup");
+    if (!picked) showCase("login");
   }, { threshold: 0.6 });
   io.observe($("m-log"));
 }
