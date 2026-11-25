@@ -139,6 +139,45 @@ button,input,select,textarea{font:inherit;color:inherit}
 .extras{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;justify-content:center}
 .extras li{background:var(--tint);border-radius:999px;padding:6px 14px;font-size:15px;font-weight:500}
 
+/* 試用區：照官方「給每個 Bot 一份工作」的版面 */
+.jobs{background:var(--page);padding:72px 0;border-top:1px solid var(--line)}
+.jobs-grid{display:grid;gap:40px;align-items:center}
+.jobs h2{font-weight:700;font-size:clamp(1.8rem,4.4vw,2.8rem);line-height:1.25;letter-spacing:-.02em}
+.job-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.job-tab{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:6px 16px;border:1px solid var(--line);border-radius:999px;background:var(--page);font-size:15px;font-weight:500;color:var(--ink);cursor:pointer;line-height:1.3}
+.job-tab:hover{border-color:#bdbdb8}
+.job-tab .bot{width:0;height:20px;transition:width .2s}
+.job-tab[aria-selected="true"]{background:var(--tint);border-color:var(--tint);font-weight:700}
+.job-tab[aria-selected="true"] .bot{width:20px}
+.job-desc{margin-top:26px;font-size:clamp(1.05rem,2vw,1.2rem);line-height:1.75;color:var(--ink-soft);max-width:30em}
+.job-desc b{color:var(--ink);font-weight:700}
+.job-chief{margin-top:12px;font-size:14px;font-weight:700;color:var(--amber-deep)}
+.job-cta{margin-top:26px;min-height:46px;font-size:15.5px;padding:8px 22px}
+.job-note{margin-top:16px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;max-width:30em}
+.phone{justify-self:center;width:min(330px,100%);height:600px;border:3px solid #1a1a1a;border-radius:46px;padding:14px 12px 12px;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;gap:8px;background:var(--page);box-shadow:0 30px 60px rgba(10,10,10,.1);overflow:hidden}
+.ph-top{display:flex;align-items:center;gap:8px;padding:6px 8px 10px;border-bottom:1px solid var(--line)}
+.ph-top b{font-size:14.5px}
+.ph-top .bot{width:24px;height:24px}
+.ph-back{width:9px;height:9px;border-left:2px solid #888;border-bottom:2px solid #888;transform:rotate(45deg);margin:0 6px 0 4px}
+.ph-thread{display:flex;flex-direction:column;justify-content:flex-end;gap:8px;overflow:hidden;padding:0 2px}
+.ph-msg{flex:none;max-width:88%;font-size:14px;line-height:1.55;border-radius:16px;padding:9px 12px;transition:opacity .35s,transform .35s}
+.ph-msg.off{opacity:0;transform:translateY(8px)}
+.ph-msg.ai{align-self:flex-start;background:var(--tint)}
+.ph-msg.me{align-self:flex-end;background:var(--ink);color:#fff}
+.ph-msg.status{background:none;color:var(--ink-soft);font-size:13px;padding:2px 4px;display:flex;gap:8px;align-items:flex-start}
+.ph-msg .dot{flex:none;width:8px;height:8px;margin-top:6px;border-radius:50%;background:var(--green)}
+.ph-msg.card{background:var(--page);border:1px solid var(--line);box-shadow:0 6px 16px rgba(10,10,10,.05)}
+.ph-msg.card b{display:block;font-size:13px;color:var(--ink-soft);margin-bottom:4px}
+.ph-btns{display:flex;gap:6px;margin-top:10px}
+.ph-btns i{font-style:normal;font-weight:700;font-size:13px;border-radius:999px;padding:5px 14px;background:var(--ink);color:#fff}
+.ph-btns i+i{background:var(--tint);color:var(--ink)}
+.ph-input{display:flex;gap:8px;align-items:center}
+.ph-plus{width:38px;height:38px;border-radius:50%;background:var(--tint);display:grid;place-items:center;color:#777}
+.ph-box{flex:1;height:38px;border-radius:999px;background:var(--tint);color:#9a9a96;font-size:14px;display:flex;align-items:center;padding:0 14px}
+@media (max-width:600px){.phone{height:520px}}
+@media (min-width:880px){.jobs{padding:104px 0}.jobs-grid{grid-template-columns:1fr minmax(0,380px);gap:64px}}
+@media (prefers-reduced-motion:reduce){.ph-msg,.job-tab .bot{transition:none}}
+
 /* 試用區 */
 .desk{background:var(--board);color:#fff;padding:72px 0}
 .desk h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.3}
@@ -398,36 +437,29 @@ button,input,select,textarea{font:inherit;color:inherit}
   </div>
 </section>
 
-<section class="desk" id="try" aria-labelledby="try-title">
-  <div class="wrap">
-    <h2 id="try-title">你最近卡在哪一件事？</h2>
-    <p class="desk-sub">點一件事，看誰接手、怎麼查、最後交給你什麼。</p>
-    <div class="desk-grid">
-      <div class="issues" role="tablist" aria-label="選一件公司難題">
-        <button class="issue" role="tab" id="tab-login" aria-controls="memo" aria-selected="true" data-case="login">每月登入一堆後台抓發票<span>AI 財務長</span></button>
-        <button class="issue" role="tab" id="tab-night" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="night">想開發客戶，白天沒空<span>AI 營收長</span></button>
-        <button class="issue" role="tab" id="tab-mail" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="mail">詢價信一來，都要等我回<span>AI 營運長</span></button>
-        <button class="issue" role="tab" id="tab-teach" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="teach">每週要看數字，都要人整理<span>AI 策略長</span></button>
-        <button class="issue" role="tab" id="tab-voice" aria-controls="memo" aria-selected="false" tabindex="-1" data-case="voice">AI 寫的文，不像我講的話<span>AI 行銷長</span></button>
+<section class="jobs" id="try" aria-labelledby="try-title">
+  <div class="wrap jobs-grid">
+    <div class="jobs-copy">
+      <h2 id="try-title">每一位 AI，給一份工作</h2>
+      <div class="job-tabs" role="tablist" aria-label="選一份工作">
+          <button class="job-tab" role="tab" id="job-sales" aria-controls="job-panel" aria-selected="true" data-job="sales"><i class="bot"></i>業務開發</button>
+          <button class="job-tab" role="tab" id="job-talent" aria-controls="job-panel" aria-selected="false" tabindex="-1" data-job="talent"><i class="bot"></i>人才招募</button>
+          <button class="job-tab" role="tab" id="job-ads" aria-controls="job-panel" aria-selected="false" tabindex="-1" data-job="ads"><i class="bot"></i>廣告投放</button>
+          <button class="job-tab" role="tab" id="job-money" aria-controls="job-panel" aria-selected="false" tabindex="-1" data-job="money"><i class="bot"></i>費用管理</button>
+          <button class="job-tab" role="tab" id="job-health" aria-controls="job-panel" aria-selected="false" tabindex="-1" data-job="health"><i class="bot"></i>客戶健康度</button>
+          <button class="job-tab" role="tab" id="job-chief" aria-controls="job-panel" aria-selected="false" tabindex="-1" data-job="chief"><i class="bot"></i>幕僚長</button>
       </div>
-      <article class="memo" id="memo" role="tabpanel" aria-labelledby="tab-login">
-        <p class="memo-who" id="m-who"></p>
-        <p class="memo-q" id="m-q"></p>
-        <p class="skill" id="m-skill"></p>
-        <h3>你丟給它的資料</h3>
-        <ul class="files" id="m-files"></ul>
-        <h3>它正在做的事</h3>
-        <ol class="log" id="m-log"></ol>
-        <h3>交給你的結果</h3>
-        <div class="result hold" id="m-result" aria-live="polite">
-          <p class="result-head" id="m-head"></p>
-          <table class="rt" id="m-table"></table>
-        </div>
-        <h3>你只要做一個決定</h3>
-        <p class="decide" id="m-decide"></p>
-        <p class="daily"><b>之後</b><span id="m-daily"></span></p>
-        <p class="memo-note">以上是示範情境，公司和數字都是舉例。課程當天，你用自己公司的資料，現場做出你的這一位。</p>
-      </article>
+      <div id="job-panel" role="tabpanel" aria-labelledby="job-sales">
+        <p class="job-desc"><b id="job-lead"></b><span id="job-text"></span></p>
+        <p class="job-chief" id="job-owner"></p>
+      </div>
+      <a class="btn btn-ghost job-cta" href="#signup">報名，做出你的這一位</a>
+      <p class="job-note">以上是示範情境，公司和數字都是舉例。課程當天，你用自己公司的資料，現場做出你的這一位。</p>
+    </div>
+    <div class="phone" id="phone" aria-live="polite">
+      <div class="ph-top"><span class="ph-back" aria-hidden="true"></span><i class="bot" id="ph-bot"></i><b id="ph-name"></b></div>
+      <div class="ph-thread" id="ph-thread"></div>
+      <div class="ph-input" aria-hidden="true"><span class="ph-plus">＋</span><span class="ph-box">輸入訊息</span></div>
     </div>
   </div>
 </section>
@@ -727,211 +759,125 @@ if (calm || !("IntersectionObserver" in window)) {
   setTimeout(playRelay, 9000);
 }
 
-/* 試用區：點一件事，看誰接手、怎麼查、交給你什麼（依講師團隊實際工作改編） */
-const CASES = {
-  login: {
-    bot: "fin", who: "AI 財務長",
-    q: "每到月初，你或會計要登入 6 個廠商後台、2 個電商後台，一個一個下載發票、對帳，花掉一整個下午。",
-    skill: "它有自己的電腦和瀏覽器，會登入你在用的網站，沒有串接也能做。",
-    files: [["網頁", "6 個廠商後台"], ["網頁", "2 個電商賣家後台"], ["xlsx", "會計要的對帳表"]],
-    log: [
-      "用你授權的帳號，逐一登入 8 個後台",
-      "下載 11 月發票 <em>47 張</em>，依廠商分資料夾",
-      "跟採購單逐張對：<em>45 張</em>金額相符",
-      "<em>2 張</em>對不上：一張多了 1,200 元，一張同一筆開了兩次",
-      "填進會計要的對帳表；遇到要簡訊驗證碼的後台，停下來等你"
-    ],
-    head: "47 張發票都抓好、對好了。<strong>45 張相符，2 張有問題</strong>，要問廠商的話也寫好了。",
-    cols: ["項目", "狀況", "它怎麼處理"],
-    rows: [
-      ["A 廠商 11/08 發票", "比採購單多 1,200 元", "詢問信擬好，等你按寄出", 1],
-      ["B 廠商 11/15 發票", "同一筆開了兩張", "標註，請廠商作廢一張"],
-      ["C 電商後台", "登入要簡訊驗證碼", "停下來，等你在手機輸入"]
-    ],
-    decide: "給 A 廠商的詢問信，要不要寄出。",
-    daily: "每月 3 號自動跑一次。驗證碼、付款這類事，它一定停下來等你。"
+/* 試用區：每一位 AI，給一份工作（示範情境） */
+const JOBS = {
+  sales: {
+    bot: "rev", name: "業務開發", chief: "AI 營收長",
+    lead: "一夜之間，名單變商機。",
+    text: "晚上研究潛在客戶，挑出最近有動靜的公司，用你的口吻寫好開發信，留一份清單等你核准。",
+    status: "研究了 20 家公司，刪掉 4 家已經歇業的，寫好 16 封開發信。",
+    card: { title: "開發信草稿 1／16", body: "王總您好，看到貴公司 10 月新廠動工，想請教新產線的包材怎麼安排？我們剛幫兩家同業把交期縮短一半，這週方便約 15 分鐘電話嗎？", ok: "寄出", no: "先不要" },
+    me: "前 10 封寄出，其他先留著。",
+    reply: "前 10 封已寄出，其他 6 封留在待核准。有人回信，我早上整理給你。"
   },
-  night: {
-    bot: "rev", who: "AI 營收長",
-    q: "你知道該開發新客戶，但白天被訂單和員工追著跑，名單放了三個月都沒動。",
-    skill: "它 24 小時在做事，做完只把要你核准的東西放到你面前。",
-    files: [["xlsx", "過去成交的客戶 30 家"], ["文字", "你的服務介紹"]],
-    log: [
-      "晚上 11 點開工：分析 30 家老客戶，找出共同點（產業、規模、地區）",
-      "照同樣條件上網找，列出 <em>20 家</em>還沒合作過的公司",
-      "逐家看官網和最近動態，刪掉 <em>4 家</em>已經歇業或搬走的",
-      "剩下 16 家，每家寫一封提到對方近況的開發信，一封都不寄",
-      "早上 7 點前，放進你的待核准清單"
-    ],
-    head: "你睡覺的時候，<strong>16 封開發信已經寫好</strong>，每封都提到對方公司最近的事，等你看過再寄。",
-    cols: ["公司", "為什麼找它", "信的第一句"],
-    rows: [
-      ["甲食品", "跟你 3 位老客戶同產業，剛擴廠", "「看到貴公司 10 月新廠動工，想請教…」", 1],
-      ["乙物流", "同在高雄，正在徵倉管", "「注意到貴公司最近在找倉管人員…」"],
-      ["丙設計", "官網剛改版，多了企業客戶頁", "「看到貴公司開始接企業客戶…」"]
-    ],
-    decide: "16 封裡，哪幾封可以寄。",
-    daily: "每週二、四晚上各跑一輪。有人回信，它整理好重點，早上告訴你。"
+  talent: {
+    bot: "ops", name: "人才招募", chief: "AI 營運長",
+    lead: "徵人，不再乾等履歷。",
+    text: "主動找人選、用你的口吻寫邀約訊息，跳過以前應徵過的人，你核准後幫你排好面試。",
+    status: "從 3 個求職網站找出 18 位符合的人選，跳過 4 位以前應徵過的。",
+    card: { title: "邀約訊息 1／14", body: "林小姐您好，看到您做過 5 年餐飲店長，我們鳳山新店正在找店長，想約您喝杯咖啡聊聊，週四下午方便嗎？", ok: "送出邀約", no: "跳過" },
+    me: "前 5 位都約，週四下午。",
+    reply: "已約好 5 位，週四 14:00 起每 30 分鐘一位，行事曆排好了。"
   },
-  mail: {
-    bot: "ops", who: "AI 營運長",
-    q: "客人寄信來詢價，要查庫存、算運費、套折扣，員工不敢報，全部等你回。客人等了兩天，就跑了。",
-    skill: "一封信進來，它就自己開工，不用你叫。",
-    files: [["信件", "客人的詢價信"], ["xlsx", "庫存表"], ["文字", "你的報價規則"]],
-    log: [
-      "14:32 收到詢價信，讀出要 A 款 300 個、B 款 120 個",
-      "查庫存表：A 款夠，B 款只剩 <em>80 個</em>，補貨要 10 天",
-      "照你的報價規則：300 個以上打 95 折，運費照運費表算",
-      "擬好回信：B 款先出 80 個，其餘 40 個 10 天後補",
-      "14:41 把報價單和回信傳到你手機，等你核准"
-    ],
-    head: "客人 14:32 來信，<strong>9 分鐘後報價就擬好了</strong>。你在外面用手機看一眼，按核准就寄出。",
-    cols: ["品項", "數量", "報價怎麼算"],
-    rows: [
-      ["A 款", "300 個", "打 95 折，庫存足夠"],
-      ["B 款", "120 個", "先出 80 個，40 個 10 天後補", 1],
-      ["運費", "1 批", "照你的運費表計算"]
-    ],
-    decide: "這份報價，要不要直接寄出。",
-    daily: "之後每封詢價信都這樣處理。超過你設的金額，或要給特別折扣，才停下來問你。"
+  ads: {
+    bot: "mkt", name: "廣告投放", chief: "AI 行銷長",
+    lead: "廣告費，花在對的地方。",
+    text: "每天抓 FB、Google 的廣告數據，對照你的月預算建議怎麼調，動到出價之前先等你核准。",
+    status: "讀完這週 FB、Google 的 6 組廣告，比對每一組的成交。",
+    card: { title: "預算調整建議", body: "「秋季促銷 B」這週花了 4,200 元，0 筆成交，建議先停。預算移給「老客回購」，它每筆成交只花 380 元。", ok: "照建議調", no: "先不要" },
+    me: "照建議調。",
+    reply: "調好了。明天早上給你新數字，3 天後再看一次效果。"
   },
-  teach: {
-    bot: "str", who: "AI 策略長",
-    q: "你想每週看一次營運數字，但數字散在 POS、會計軟體、廣告後台，叫員工整理一次就要半天。",
-    skill: "你做一次給它看，它把步驟記下來，之後每週自動做。",
-    files: [["網頁", "POS 後台"], ["網頁", "廣告後台"], ["xlsx", "你自己做過的一份週報"]],
-    log: [
-      "第一次：看你示範怎麼從 3 個後台抓數字、做成表",
-      "把步驟存起來，變成每週一早上 7 點的固定工作",
-      "這週一，自己登入 3 個後台抓數字",
-      "跟上週、去年同期比，挑出變化最大的 3 件事",
-      "7:30 把一頁週報傳到你手機"
-    ],
-    head: "這是它自己做的第 6 份週報。<strong>這週營業額比上週少 8%，問題出在平日晚上</strong>。",
-    cols: ["數字", "這週", "它的提醒"],
-    rows: [
-      ["營業額", "比上週少 8%", "平日晚上來客少了一成，週末正常", 1],
-      ["廣告花費", "比上週多 15%", "點擊變多，成交沒增加，建議先停 1 組"],
-      ["客單價", "跟上週差不多", "不用處理"]
-    ],
-    decide: "要不要先停掉那組廣告。",
-    daily: "每週一 7:30 準時到你手機。數字變化超過你設的幅度，它會多寫一段原因。"
+  money: {
+    bot: "fin", name: "費用管理", chief: "AI 財務長",
+    lead: "錢的事，每週一頁看清楚。",
+    text: "從信箱收發票和收據，登入廠商後台下載帳單，做好每週費用摘要；缺分類的，自己提醒同事補。",
+    status: "從信箱收到 9 張收據，登入 2 個廠商後台下載帳單，請對帳的 AI 比對採購單。",
+    card: { title: "本週費用摘要", body: "本週支出 86,400 元，比上週多 12%。水電費變多最明顯；1 張收據缺分類，已提醒採購補上。", ok: "看明細", no: "好" },
+    me: "水電為什麼變多？",
+    reply: "11 月新店開始計費。我已經標註，下週起列為固定支出。"
   },
-  voice: {
-    bot: "mkt", who: "AI 行銷長",
-    q: "你試過叫 AI 寫貼文，寫出來像教科書，每篇都要改到面目全非，最後乾脆自己寫。",
-    skill: "它記得你怎麼改、喜歡什麼，越用越像你。",
-    files: [["文字", "你過去 30 篇貼文"], ["文字", "你改過它的 12 份稿子"]],
-    log: [
-      "讀你過去 30 篇貼文，記下你的口頭禪和句子長短",
-      "比對你改過的 12 份稿子：你常刪掉「首先」「總之」，常把長句切短",
-      "把這些寫成它自己的寫作規矩，存進記憶",
-      "照新規矩寫這週 3 篇草稿",
-      "標出哪幾句是照你上次的改法寫的"
-    ],
-    head: "它把你的改法變成規矩。<strong>你改得越多次，下一篇要改的就越少。</strong>",
-    cols: ["它記住的規矩", "從哪裡學到的"],
-    rows: [
-      ["不用「首先」「總之」", "你在 12 份稿子裡刪了 9 次"],
-      ["一段不超過 3 句", "你過去 30 篇貼文的寫法"],
-      ["結尾問讀者一個問題", "你按讚最多的 5 篇都這樣寫", 1]
-    ],
-    decide: "這 3 篇，哪一篇先不要發。",
-    daily: "你每改一個字，它都記下來，下次就照你的方式寫。"
+  health: {
+    bot: "str", name: "客戶健康度", chief: "AI 策略長",
+    lead: "老客戶要走，先一步知道。",
+    text: "看每位客戶的下單頻率和往來紀錄，整理一份「可能流失」和「可以加購」的觀察清單。",
+    status: "比對 120 位客戶近 6 個月的下單紀錄和往來訊息。",
+    card: { title: "觀察清單", body: "可能流失 3 位：宏昌 60 天沒下單（以前每月訂）、永豐單量少了一半、德利換了採購窗口。可以加購 2 位：甲食品、乙物流。", ok: "幫我約拜訪", no: "先觀察" },
+    me: "宏昌我自己打，其他的你先寫問候信。",
+    reply: "好，另外 4 封問候信寫好了，放在待核准給你看。"
+  },
+  chief: {
+    bot: "ops", name: "幕僚長", chief: "AI 營運長",
+    lead: "你的全天候幕僚。",
+    text: "掃過 LINE、信箱、行事曆和會議紀錄，告訴你什麼是新的、什麼跟你的重點有關，幫你追斷掉的事、喬時間。",
+    status: "掃過今天 146 則訊息、23 封信和 3 場會議紀錄。",
+    card: { title: "今天要你看的 3 件事", body: "1. 鼎盛的報價今天到期。2. 週五的會議跟你的高鐵時間撞了。3. 上週會議說要寄的樣品，還沒寄。", ok: "處理第 2 件", no: "晚點" },
+    me: "週五會議改到下午。",
+    reply: "改到 14:00 了，對方也確認了。樣品我已經提醒倉庫，今天寄出。"
   }
 };
 
 const $ = (id) => document.getElementById(id);
-const tabs = [...document.querySelectorAll(".issue")];
-let timers = [];
+const jobTabs = [...document.querySelectorAll(".job-tab")];
+let jobTimers = [];
 
-function el(tag, html, cls) {
-  const n = document.createElement(tag);
-  if (html != null) n.innerHTML = html;
-  if (cls) n.className = cls;
+function msg(cls, html) {
+  const n = document.createElement("div");
+  n.className = "ph-msg " + cls + (calm ? "" : " off");
+  n.innerHTML = html;
   return n;
 }
+function esc(t) {
+  return t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
 
-function showCase(key, focus) {
-  const c = CASES[key];
-  timers.forEach(clearTimeout);
-  timers = [];
-  $("m-who").innerHTML = botSVG(c.bot) + "<span>" + c.who + "接手</span>";
-  $("m-q").textContent = c.q;
-  $("m-skill").textContent = c.skill;
-  $("m-files").replaceChildren(...c.files.map(([ext, name]) => {
-    const li = el("li");
-    li.append(el("b", null), document.createTextNode(name));
-    li.firstChild.textContent = ext.toUpperCase();
-    return li;
-  }));
-  const items = c.log.map((t) => el("li", "<span>" + t + "</span>", calm ? "done" : "wait"));
-  $("m-log").replaceChildren(...items);
-  $("m-head").innerHTML = c.head;
-  const thead = el("thead");
-  const hr = el("tr");
-  c.cols.forEach((h) => hr.append(el("th", h)));
-  thead.append(hr);
-  const tbody = el("tbody");
-  c.rows.forEach((r) => {
-    const tr = el("tr", null, r[c.cols.length] ? "hi" : "");
-    c.cols.forEach((_, i) => {
-      const td = el("td");
-      td.textContent = r[i];
-      td.dataset.label = c.cols[i];
-      tr.append(td);
-    });
-    tbody.append(tr);
-  });
-  $("m-table").replaceChildren(thead, tbody);
-  $("m-decide").textContent = c.decide;
-  $("m-daily").textContent = c.daily;
-  const result = $("m-result");
-  if (calm) {
-    result.classList.remove("hold");
-  } else {
-    result.classList.add("hold");
-    items.forEach((li, i) => {
-      timers.push(setTimeout(() => {
-        if (i > 0) items[i - 1].className = "done";
-        li.className = "run";
-      }, 150 + i * 700));
-    });
-    timers.push(setTimeout(() => {
-      items[items.length - 1].className = "done";
-      result.classList.remove("hold");
-    }, 150 + items.length * 700));
-  }
-  tabs.forEach((t) => {
-    const on = t.dataset.case === key;
+function showJob(key, focus) {
+  const j = JOBS[key];
+  jobTimers.forEach(clearTimeout);
+  jobTimers = [];
+  $("job-lead").textContent = j.lead;
+  $("job-text").textContent = " " + j.text;
+  $("job-owner").textContent = "由 " + j.chief + " 負責";
+  $("ph-bot").innerHTML = botSVG(j.bot);
+  $("ph-name").textContent = j.name;
+  const list = [
+    msg("ai status", "<span class=\"dot\"></span>" + esc(j.status)),
+    msg("ai card", "<b>" + esc(j.card.title) + "</b><p>" + esc(j.card.body) + "</p><div class=\"ph-btns\"><i>" + esc(j.card.ok) + "</i><i>" + esc(j.card.no) + "</i></div>"),
+    msg("me", esc(j.me)),
+    msg("ai", esc(j.reply))
+  ];
+  $("ph-thread").replaceChildren(...list);
+  if (!calm) list.forEach((n, i) => jobTimers.push(setTimeout(() => n.classList.remove("off"), 250 + i * 900)));
+  jobTabs.forEach((t) => {
+    const on = t.dataset.job === key;
     t.setAttribute("aria-selected", on);
     t.tabIndex = on ? 0 : -1;
+    t.querySelector(".bot").innerHTML = on ? botSVG(JOBS[t.dataset.job].bot) : "";
     if (on) {
-      $("memo").setAttribute("aria-labelledby", t.id);
+      $("job-panel").setAttribute("aria-labelledby", t.id);
       if (focus) t.focus();
     }
   });
 }
-let picked = false;
-tabs.forEach((t, i) => {
-  t.addEventListener("click", () => { picked = true; showCase(t.dataset.case); });
+let jobPicked = false;
+jobTabs.forEach((t, i) => {
+  t.addEventListener("click", () => { jobPicked = true; showJob(t.dataset.job); });
   t.addEventListener("keydown", (e) => {
     const move = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
     if (!move) return;
     e.preventDefault();
-    picked = true;
-    showCase(tabs[(i + move + tabs.length) % tabs.length].dataset.case, true);
+    jobPicked = true;
+    showJob(jobTabs[(i + move + jobTabs.length) % jobTabs.length].dataset.job, true);
   });
 });
-/* 先跑一次；捲到「它正在做的事」時再重跑一次，讓人看到做事的過程 */
-showCase("login");
+showJob("sales");
 if ("IntersectionObserver" in window && !calm) {
-  const io = new IntersectionObserver((es) => {
+  const jo = new IntersectionObserver((es) => {
     if (!es.some((e) => e.isIntersecting)) return;
-    io.disconnect();
-    if (!picked) showCase("login");
-  }, { threshold: 0.6 });
-  io.observe($("m-log"));
+    jo.disconnect();
+    if (!jobPicked) showJob("sales");
+  }, { threshold: 0.5 });
+  jo.observe($("phone"));
 }
 
 const form = $("form");
