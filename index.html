@@ -261,17 +261,14 @@ button,input,select,textarea{font:inherit;color:inherit}
 .host-card img{width:110px;height:110px;object-fit:cover;object-position:50% 30%;border-radius:50%;border:4px solid var(--amber)}
 .host-intro{font-family:var(--serif);font-weight:700;font-size:1.25rem;line-height:1.6}
 .host blockquote{margin:22px 0 0;padding:16px 18px;background:var(--board-2);border-radius:14px;color:#dfe8e4;line-height:1.75;border-left:4px solid var(--amber)}
-.creds-h{font-size:14px;font-weight:700;color:var(--amber);margin-top:4px}
-.creds-h + .creds,.creds-h + .certs{margin-top:8px}
-.creds + .creds-h{margin-top:28px}
-.creds li{padding:11px 0;border-bottom:1px solid var(--board-line);line-height:1.55;color:#bdbdb8;font-size:15px}
-.creds li b{display:block;color:#fff;font-size:17px;font-weight:700}
-.creds li:first-child b{font-size:20px}
-.certs{display:grid;gap:8px}
-.certs li{background:var(--board-2);border-radius:12px;padding:10px 14px;line-height:1.5;font-weight:700;color:#fff;font-size:15.5px}
-.certs span{display:block;font-size:12.5px;font-weight:500;color:#a8a8a3}
-.host-now{margin-top:18px;color:#dcdcd8;line-height:1.7}
-@media (min-width:600px){.certs{grid-template-columns:1fr 1fr}}
+.feats{display:grid;gap:12px}
+.feats > li{background:var(--board-2);border-radius:16px;padding:18px 20px}
+.feats em{display:block;font-style:normal;font-weight:700;font-size:2rem;line-height:1.1;color:var(--amber);letter-spacing:-.02em}
+.feats b{display:block;margin-top:6px;font-size:17px;line-height:1.45;color:#fff}
+.feats span{display:block;margin-top:4px;font-size:14.5px;line-height:1.6;color:#a8a8a3}
+.certs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.certs li{font-size:13px;line-height:1.4;color:#dcdcd8;border:1px solid var(--board-line);border-radius:999px;padding:4px 10px}
+.host-now{margin-top:16px;color:#a8a8a3;font-size:15px;line-height:1.7}
 
 /* 費用 */
 .price-card{margin-top:30px;display:grid;gap:0;border-radius:24px;overflow:hidden;border:1.5px solid var(--line);max-width:860px;background:var(--page)}
@@ -529,27 +526,14 @@ button,input,select,textarea{font:inherit;color:inherit}
         <blockquote>員工訓練完、跟了幾年就離職，又得重新訓練。所以我現在讓 AI 團隊接手。</blockquote>
       </div>
       <div class="host-side">
-        <h3 class="creds-h">經營與人脈</h3>
-        <ul class="creds">
-          <li><b>BNI 高雄市南區執行董事</b>2016～2022 年</li>
-          <li><b>BNI 區域顧問（Director Consultant）</b>2014～2016 年</li>
-          <li><b>高雄第一位 BNI 會員</b>2012 年加入</li>
-          <li><b>台灣行銷人協會理事長</b>2016 年至今</li>
-          <li><b>高雄市行銷人協會理事長</b>2024 年至今</li>
-          <li><b>Podcast「陳執董的商業洞察」主持人</b>2020 年至今</li>
-          <li><b>國立高雄大學 IEMBA 碩士</b>跑過大陸 75 個城市，看過當地市場</li>
+        <ul class="feats">
+          <li><em>6 年</em><b>BNI 高雄市南區執行董事</b><span>2016～2022 年。2012 年加入，是高雄第一位 BNI 會員。</span></li>
+          <li><em>10 年</em><b>台灣行銷人協會理事長</b><span>2016 年至今，2024 年起兼任高雄市行銷人協會理事長。</span></li>
+          <li><em>6 張</em><b>Anthropic、Google 官方 AI 認證</b>
+            <ul class="certs"><li>Claude Code in Action</li><li>Claude Code 101</li><li>Claude 工具串接（Messages API）</li><li>Gemini 認證教育者</li><li>Google 生成式 AI 教育者</li><li>Google AI 教育者（K12）</li></ul>
+          </li>
         </ul>
-        <h3 class="creds-h">AI 證照</h3>
-        <ul class="certs">
-          <li><span>Anthropic（Claude 官方學院）</span>Claude Code in Action</li>
-          <li><span>Anthropic（Claude 官方學院）</span>Claude Code 101</li>
-          <li><span>Anthropic（Claude 官方學院）</span>Tool use with the Messages API</li>
-          <li><span>Google for Education</span>Gemini 認證教育者（Gemini Certified Educator）</li>
-          <li><span>Google</span>Generative AI for Educators</li>
-          <li><span>Google</span>AI for K12 Educators</li>
-          <li><span>職業技能等級證書</span>電子商務師（中級）</li>
-        </ul>
-        <p class="host-now">現在自己帶 17 位 AI 員工分工，每天自動經營個人品牌。</p>
+        <p class="host-now">也是 Podcast「陳執董的商業洞察」主持人、國立高雄大學 IEMBA 碩士，跑過大陸 75 個城市。現在自己帶 17 位 AI 員工分工。</p>
       </div>
     </div>
   </div>
