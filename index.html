@@ -54,24 +54,24 @@ button,input,select,textarea{font:inherit;color:inherit}
 .top{position:relative;display:flex;justify-content:space-between;align-items:center;min-height:66px;gap:16px}
 .brand{font-weight:900;font-size:17px;text-decoration:none;line-height:1.3}
 .top-link{font-size:15px;font-weight:700;color:#fff;background:var(--ink);padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap}
-.hero-grid{position:relative;display:grid;gap:34px;padding:24px 0 56px}
-.hero h1{font-weight:900;font-size:clamp(2.3rem,6.6vw,4.2rem);line-height:1.18;letter-spacing:-.01em}
-.hero h1 .glow{background:linear-gradient(transparent 62%,rgba(242,173,56,.55) 62%)}
-.hero-kicker{margin-top:18px;font-weight:700;font-size:clamp(1.15rem,2.3vw,1.4rem);line-height:1.6}
-.hero-lead{margin-top:10px;font-size:clamp(1.05rem,2vw,1.22rem);line-height:1.75;max-width:34em;color:var(--ink-soft)}
-.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:26px}
-.facts div{background:var(--tint);border-radius:14px;padding:12px 14px}
-.facts dt{font-size:13.5px;color:var(--ink-soft);line-height:1.4}
-.facts dd{font-weight:900;font-size:clamp(1.05rem,2vw,1.22rem);line-height:1.4;margin-top:3px}
-.facts small{display:block;font-weight:500;font-size:13px;color:var(--amber-deep);margin-top:2px}
-.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
 .btn{display:inline-flex;justify-content:center;align-items:center;min-height:54px;padding:10px 28px;font-weight:700;font-size:17px;text-decoration:none;border:2px solid transparent;border-radius:999px;cursor:pointer;line-height:1.3;text-align:center}
 .btn-main{background:var(--ink);color:#fff}
 .btn-main:hover{background:#333}
 .btn-ghost{background:var(--tint);color:var(--ink)}
 .btn-ghost:hover{background:#e9e9e5}
 
-/* 開頭右側：一句交辦，團隊接力 */
+.hero-center{text-align:center;padding:52px 0 36px;max-width:880px;margin:0 auto}
+.hero-chip{display:inline-block;font-size:14px;font-weight:500;color:var(--ink-soft);background:var(--tint);border-radius:999px;padding:5px 14px;line-height:1.5}
+.hero h1{margin-top:22px;font-weight:700;font-size:clamp(2.05rem,6.4vw,4.5rem);line-height:1.15;letter-spacing:-.025em}
+.hero h1 .nw{display:block;white-space:nowrap}
+.hero-kicker{margin:18px auto 0;max-width:30em;font-size:clamp(1.05rem,2.1vw,1.3rem);color:var(--ink-soft);line-height:1.6}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;justify-content:center}
+.facts{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 32px;margin-top:30px;font-size:14.5px;color:var(--ink-soft);line-height:1.5}
+.facts b{display:block;color:var(--ink);font-weight:700;font-size:15.5px}
+.stage{background:var(--tint);border-radius:28px;padding:clamp(14px,4.5vw,52px);margin:12px 0 64px}
+.stage .relay{max-width:640px;margin:0 auto}
+
+/* 開頭下方：一句交辦，團隊接力 */
 .relay{background:var(--page);border:1px solid var(--line);border-radius:24px;box-shadow:0 30px 60px rgba(10,10,10,.08);padding:18px;display:grid;gap:10px;font-size:15px;line-height:1.55}
 .relay-ask{justify-self:end;max-width:88%;background:var(--ink);color:#fff;border-radius:18px 18px 4px 18px;padding:10px 14px}
 .relay-ask small{display:block;font-size:12px;color:#bdbdb8;margin-bottom:2px}
@@ -299,9 +299,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 @media (min-width:880px){
   body{padding-bottom:0}
   .bar{display:none}
-  .hero-grid{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:center;padding:36px 0 84px;gap:48px}
-  .relay{padding:22px}
-  .facts{grid-template-columns:repeat(4,1fr)}
   .band{padding:96px 0}
   .desk{padding:96px 0}
   .desk-grid{grid-template-columns:290px minmax(0,1fr);gap:30px;align-items:start}
@@ -334,22 +331,22 @@ button,input,select,textarea{font:inherit;color:inherit}
       <a class="brand" href="#">陳執董的商業洞察</a>
       <a class="top-link" href="#signup">報名工作坊</a>
     </nav>
-    <div class="hero-grid">
-      <div>
-        <h1>一句話交辦，<br>整隊 AI <span class="glow">做到交件。</span></h1>
-        <p class="hero-kicker">老闆最缺的，不是人手，是一個懂生意的經營團隊。</p>
-        <p class="hero-lead">分工、把關、退件修改都由團隊自己來，只把要拍板的事留給你。12/30 在高雄，用一天實作：建好你的 AI 營運長、裝好 AI 策略長，再從營收長、行銷長、財務長選一位現場完成。</p>
-        <dl class="facts">
-          <div><dt>上課日期</dt><dd>12/30（三）</dd></div>
-          <div><dt>上課時間</dt><dd>09:00～16:00<small>含商務便當交流會</small></dd></div>
-          <div><dt>地點與人數</dt><dd>高雄，限 15 位</dd></div>
-          <div><dt>費用</dt><dd>NT$5,800<small>兩人同行每人 NT$4,800</small></dd></div>
-        </dl>
-        <div class="actions">
-          <a class="btn btn-main" href="#signup">報名 12/30 工作坊</a>
-          <a class="btn btn-ghost" href="#try">看團隊實際怎麼做</a>
-        </div>
+    <div class="hero-center">
+      <p class="hero-chip">12/30（三）高雄｜老闆 AI 工作坊</p>
+      <h1><span class="nw">一句話交辦，</span><span class="nw">整隊 AI 做到交件。</span></h1>
+      <p class="hero-kicker">老闆最缺的，不是人手，<span style="white-space:nowrap">是一個懂生意的經營團隊。</span></p>
+      <div class="actions">
+        <a class="btn btn-main" href="#signup">報名 12/30 工作坊</a>
+        <a class="btn btn-ghost" href="#try">看團隊實際怎麼做</a>
       </div>
+      <ul class="facts">
+        <li><b>12/30（三）</b>09:00～16:00</li>
+        <li><b>高雄實體</b>限 15 位</li>
+        <li><b>NT$5,800</b>兩人同行每人 NT$4,800</li>
+        <li><b>含商務便當交流會</b>當天帶走 3 位 AI 長官</li>
+      </ul>
+    </div>
+    <div class="stage">
       <div class="relay" id="relay" aria-label="示範：老闆交辦一件事，AI 團隊分工接力">
         <p class="relay-ask"><small>老闆 22:40</small>這則新聞，幫我做成明天能用的內容。</p>
         <div class="relay-row off"><i class="bot" data-bot="ops"></i><div><b>AI 營運長</b><p>收到。文案給行銷長，短片給剪輯助理，兩邊同時做。</p></div></div>
