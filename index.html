@@ -551,7 +551,8 @@ button,input,select,textarea{font:inherit;color:inherit}
         <p class="price-money">NT$5,800</p>
         <p>報名到 12/27（日）23:59，額滿就截止</p>
         <p class="member"><b>兩人同行每人 NT$4,800</b><br>帶合夥人或幹部一起來，兩位一起報名就有優惠。</p>
-        <p class="member"><b>BNC 會員價 NT$3,600</b><br>報名表勾選 BNC 會員，送出後直接用會員價付款，行政會核對會員身分。不跟兩人同行疊加。</p>
+        <p class="member"><b>有推薦人每人 NT$4,800</b><br>由 BNC 會員推薦你來，報名表選「有推薦人」，填上推薦人的稱呼和手機。行政會核對推薦人。</p>
+        <p class="member"><b>BNC 會員價 NT$3,600</b><br>報名表勾選 BNC 會員，送出後直接用會員價付款，行政會核對會員身分。三種優惠都不能疊加。</p>
       </div>
       <ul class="incl">
         <li>6 小時實作，含商務便當交流會</li>
@@ -629,6 +630,7 @@ button,input,select,textarea{font:inherit;color:inherit}
         <select id="regType" name="regType">
           <option value="一個人">一個人報名（NT$5,800）</option>
           <option value="兩人同行">兩人同行（每人 NT$4,800）</option>
+          <option value="有推薦人">有推薦人（每人 NT$4,800）</option>
         </select>
         <div class="invoice-extra" id="group-extra" hidden>
           <div>
@@ -636,7 +638,17 @@ button,input,select,textarea{font:inherit;color:inherit}
             <input id="groupMembers" name="groupMembers" type="text" placeholder="例如：林經理 0912-345-678">
           </div>
         </div>
-        <p class="err">選兩人同行，請填同行者的稱呼和手機。</p>
+        <div class="invoice-extra" id="ref-extra" hidden>
+          <div>
+            <label for="referrer">推薦人的稱呼</label>
+            <input id="referrer" name="referrer" type="text" placeholder="例如：王大明">
+          </div>
+          <div>
+            <label for="referrerMobile">推薦人的手機</label>
+            <input id="referrerMobile" name="referrerMobile" type="tel" inputmode="tel" placeholder="例如：0912-345-678">
+          </div>
+        </div>
+        <p class="err">選兩人同行，請填同行者的稱呼和手機；選有推薦人，請填推薦人的稱呼和手機。</p>
       </div>
       <div class="field">
         <fieldset>
@@ -689,6 +701,7 @@ button,input,select,textarea{font:inherit;color:inherit}
       <details><summary>我不會寫程式，跟得上嗎？</summary><p>跟得上。這堂課不教寫程式，每一步都在現場帶著做，會打字和登入帳號就行。</p></details>
       <details><summary>我的公司只有我一個人，適合嗎？</summary><p>適合。一個人什麼都要自己來，最需要先把重複的事交出去。</p></details>
       <details><summary>一天做得完嗎？</summary><p>當天會做好 AI 營運長、裝好 AI 策略長，再從營收長、行銷長、財務長選一位現場做出來。另外兩位給你範本，回去照著做。</p></details>
+      <details><summary>有人推薦我來，怎麼報名？</summary><p>報名表的「報名方式」選「有推薦人」，填上推薦你的 BNC 會員的稱呼和手機，送出後會出現 NT$4,800 的付款按鈕。行政會核對推薦人，不符的話會請你補差額或全額退款。</p></details>
       <details><summary>兩人同行怎麼報名？</summary><p>報名表選「兩人同行」，填上同行者的稱呼和手機，兩位每人 NT$4,800。BNC 會員價不跟兩人同行優惠疊加。</p></details>
       <details><summary>一定要買 Grok Premium 嗎？</summary><p>要。Grok Bot 包含在 Premium（US$30／月，未稅）、Super、Ultra 方案，以官方網站 x.ai/bot 公布的方案為準。建議上課前先開通，當天就能直接做。</p></details>
       <details><summary>Mac 和 Windows 都可以嗎？</summary><p>都可以，上課請帶筆電。</p></details>
@@ -726,7 +739,8 @@ const CONFIG = {
   pay: {
     regular: { url: "https://portaly.cc/whbnc/product/mWQ0zZDYBVT2SCi4Vfvn", label: "付款 NT$5,800" },
     group:   { url: "https://portaly.cc/whbnc/product/MOERlJvYwosqKNpvbycP", label: "付款 NT$9,600（2 位）" },
-    member:  { url: "https://portaly.cc/whbnc/product/Nlf2p90ionfIeNtNuv3o", label: "付款 NT$3,600（BNC 會員價）" }
+    member:  { url: "https://portaly.cc/whbnc/product/Nlf2p90ionfIeNtNuv3o", label: "付款 NT$3,600（BNC 會員價）" },
+    referral:{ url: "https://portaly.cc/whbnc/product/8Eyne1iU7xQCo7aANbVR", label: "付款 NT$4,800（推薦價）" }
   }
 };
 
@@ -897,6 +911,7 @@ const invoiceType = $("invoiceType");
 const regType = $("regType");
 regType.addEventListener("change", () => {
   $("group-extra").hidden = regType.value !== "兩人同行";
+  $("ref-extra").hidden = regType.value !== "有推薦人";
 });
 invoiceType.addEventListener("change", () => {
   $("invoice-extra").hidden = !invoiceType.value.startsWith("公司");
@@ -920,6 +935,9 @@ function fieldOk(field) {
   }
   if (field.contains(regType) && regType.value === "兩人同行") {
     ok = ok && $("groupMembers").value.trim() !== "";
+  }
+  if (field.contains(regType) && regType.value === "有推薦人") {
+    ok = ok && $("referrer").value.trim() !== "" && $("referrerMobile").value.replace(/\D/g, "").length >= 9;
   }
   field.classList.toggle("bad", !ok);
   return ok;
@@ -956,10 +974,14 @@ form.addEventListener("submit", async (e) => {
   params.set("bncMember", isMember ? "是" : "否");
   const isGroup = regType.value === "兩人同行";
   params.set("groupMembers", isGroup ? fd.get("groupMembers") : "");
-  const pay = isMember ? CONFIG.pay.member : (isGroup ? CONFIG.pay.group : CONFIG.pay.regular);
-  params.set("plan", isMember ? "BNC 會員價（待行政核對）" : (isGroup ? "兩人同行" : "一般價"));
-  params.set("priceApplied", isMember ? "NT$3,600" : (isGroup ? "每人 NT$4,800" : "NT$5,800"));
-  params.set("note", `公司規模：${fd.get("size")}｜想交給 AI 的工作：${fd.get("task")}｜上課設備：${fd.get("device")}`);
+  const isRef = !isMember && regType.value === "有推薦人";
+  const refText = isRef ? `${fd.get("referrer")}／${fd.get("referrerMobile")}` : "";
+  params.set("referrer", isRef ? fd.get("referrer") : "");
+  params.set("referrerMobile", isRef ? fd.get("referrerMobile") : "");
+  const pay = isMember ? CONFIG.pay.member : (isGroup ? CONFIG.pay.group : (isRef ? CONFIG.pay.referral : CONFIG.pay.regular));
+  params.set("plan", isMember ? "BNC 會員價（待行政核對）" : (isGroup ? "兩人同行" : (isRef ? `推薦價（推薦人：${refText}，待行政核對）` : "一般價")));
+  params.set("priceApplied", isMember ? "NT$3,600" : (isGroup ? "每人 NT$4,800" : (isRef ? "NT$4,800（推薦價）" : "NT$5,800")));
+  params.set("note", `公司規模：${fd.get("size")}｜想交給 AI 的工作：${fd.get("task")}｜上課設備：${fd.get("device")}${isRef ? `｜推薦人：${refText}` : ""}`);
   const q = new URLSearchParams(location.search);
   params.set("source", q.get("utm_source") || "");
   params.set("utm_source", q.get("utm_source") || "");
@@ -976,6 +998,7 @@ form.addEventListener("submit", async (e) => {
     form.reset();
     $("invoice-extra").hidden = true;
     $("group-extra").hidden = true;
+    $("ref-extra").hidden = true;
     box.className = "result ok";
     box.replaceChildren();
     const msg = document.createElement("span");
